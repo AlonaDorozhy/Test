@@ -1,0 +1,19 @@
+.input {
+    font-size: 22px;
+    border-radius: 5px;
+    border: 1px solid rgb(98, 0, 255);
+    margin: 5px 0px;
+    height: 35px;
+}
+
+.select {
+    font-size: 22px;
+    border-radius: 5px;
+    border: 1px solid rgb(98, 0, 255);
+    margin: 5px 3px;
+    height: 35px;
+}
+
+button {
+    background: rgb(98, 0, 255);
+}
