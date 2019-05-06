@@ -24,7 +24,7 @@ class Input extends Component {
 
                 <br />
                 <button onClick={this.props.onClick} className="btn btn-primary"> Get result</button>
-                <p> Your result: {this.result} </p>
+                <p> Temperature Conversion Result: {this.props.result} </p>
 
             </div>
         );

@@ -1,83 +1,83 @@
-import React, { Component } from 'react'
 
- class Temperature extends Component {
-     constructor() {
-         super();
-         this.state = {
-             name: "",
-             shareholders: [{ name: "" }]
-         };
-     }
 
-     handleNameChange = evt => {
-         this.setState({ name: evt.target.value });
-     };
+import React, { Component } from 'react';
 
-     handleShareholderNameChange = idx => evt => {
-         const newShareholders = this.state.shareholders.map((shareholder, sidx) => {
-             if (idx !== sidx) return shareholder;
-             return { ...shareholder, name: evt.target.value };
-         });
+class Temperature extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { temperatureInC: '', temperatureInF: '' };
+        this.handleCChange = this.handleCChange.bind(this);
+        this.handleFChange = this.handleFChange.bind(this);
 
-         this.setState({ shareholders: newShareholders });
-     };
+    }
 
-     handleSubmit = evt => {
-         const { name, shareholders } = this.state;
-         alert(`Incorporated: ${name} with ${shareholders.length} shareholders`);
-     };
+    handleCChange(e) {
+        if (e.target.value.length <= 0) {
+            this.setState({ temperatureInF: '' });
+            this.setState({ temperatureInC: e.target.value });
+        }
+        else {
+            this.setState({ temperatureInC: e.target.value });
+            this.setState({ temperatureInF: Ctf(e.target.value) });
+        }
 
-     handleAddShareholder = () => {
-         this.setState({
-             shareholders: this.state.shareholders.concat([{ name: "" }])
-         });
-     };
+    }
+    handleFChange(e) {
+        if (e.target.value.length <= 0) {
+            this.setState({ temperatureInF: e.target.value });
+            this.setState({ temperatureInC: '' });
+        }
+        else {
+            this.setState({ temperatureInF: e.target.value });
+            this.setState({ temperatureInC: Ftc(e.target.value) });
+        }
 
-     handleRemoveShareholder = idx => () => {
-         this.setState({
-             shareholders: this.state.shareholders.filter((s, sidx) => idx !== sidx)
-         });
-     };
+    }
 
-     render() {
-         return (
-             <form onSubmit={this.handleSubmit}>
-                 <input
-                     type="text"
-                     placeholder="Company name, e.g. Magic Everywhere LLC"
-                     value={this.state.name}
-                     onChange={this.handleNameChange}
-                 />
 
-                 <h4>Shareholders</h4>
 
-                 {this.state.shareholders.map((shareholder, idx) => (
-                     <div className="shareholder">
-                         <input
-                             type="text"
-                             placeholder={`Shareholder #${idx + 1} name`}
-                             value={shareholder.name}
-                             onChange={this.handleShareholderNameChange(idx)}
-                         />
-                         <button
-                             type="button"
-                             onClick={this.handleRemoveShareholder(idx)}
-                             className="small"
-                         >
-                             -
-            </button>
-                     </div>
-                 ))}
-                 <button
-                     type="button"
-                     onClick={this.handleAddShareholder}
-                     className="small"
-                 >
-                     Add Shareholder
-        </button>
-                 <button>Incorporate</button>
-             </form>
-         );
-     }
- }
+    render() {
+        const temperature = this.state.temperatureInC;
+        return (
+            <div>
+                <fieldset>
+                    <legend> Enter temperature in Celsius</legend>
+                    <input type="number" value={this.state.temperatureInC} onChange={this.handleCChange} />
+                </fieldset>
+                <fieldset>
+                    <legend>Enter temperature in Fahrenheit</legend>
+                    <input type="number" value={this.state.temperatureInF} onChange={this.handleFChange} />
+                </fieldset>
+                <BoilingVerdict celsius={temperature} />
+            </div>
+
+        );
+    }
+
+
+}
+
+
+
+function Ctf(temp) {
+    return (temp * 9 / 5) + 32;
+
+}
+
+function Ftc(temp) {
+    return Math.floor((temp - 32) * 5 / 9);
+
+}
+
+function BoilingVerdict(props) {
+    if (props.celsius >= 100) {
+        return <h3>Water boils at this temperature.</h3>
+    }
+    else {
+        return <h3>Water will not boil.</h3>
+    }
+
+}
+
 export default Temperature;
+

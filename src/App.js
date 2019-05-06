@@ -14,7 +14,7 @@ function App() {
     <BrowserRouter>
       <div>
         <Navbar />
-      <Temperature/>
+  
         <Switch>
       <div className="container">
           <Route path="/" component={Converter} exact/>
